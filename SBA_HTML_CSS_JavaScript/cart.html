@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="css/cart.css">
+    <script src="js/cart.js" async></script>
+</head>
+<style>
+
+body{
+    background: #f7f7f7;
+}
+</style>
+
+<body>
+
+    <header>
+
+        <a href="index.html" class="logo"><img src="images/logo2.png" alt=""></a>
+
+        <nav class="navbar">
+            <a href="cart.html"><i class="fas fa-shopping-cart"></i></a>
+            <a href="register.html">Create Account</a>
+            <a href="login.html">log in</a>
+        </nav>
+
+    </header>
+
+
+    <section class="container content-section">
+        <div class="shop-items">
+            <div class="shop-item">
+                <span class="shop-item-title">Burger</span>
+                <img class="shop-item-image" src="Images/g-1.jpg">
+                <div class="shop-item-details">
+                    <span class="shop-item-price">$12.99</span>
+                    <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                </div>
+            </div>
+            <div class="shop-item">
+                <span class="shop-item-title">Sandwitch</span>
+                <img class="shop-item-image" src="Images/g-2.jpg">
+                <div class="shop-item-details">
+                    <span class="shop-item-price">$14.99</span>
+                    <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                </div>
+            </div>
+            <div class="shop-item">
+                <span class="shop-item-title">Combo</span>
+                <img class="shop-item-image" src="Images/g-3.jpg">
+                <div class="shop-item-details">
+                    <span class="shop-item-price">$9.99</span>
+                    <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                </div>
+            </div>
+            <div class="shop-item">
+                <span class="shop-item-title">Desert</span>
+                <img class="shop-item-image" src="Images//g-4.jpg">
+                <div class="shop-item-details">
+                    <span class="shop-item-price">$19.99</span>
+                    <button class="btn btn-primary shop-item-button" type="button">ADD TO CART</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="container content-section" style="display:block; margin-left: auto; margin-right: auto; width:50%; min-height:400px; text-align: center;">
+        <h2 class="section-header">CART</h2>
+        <div class="cart-row">
+            <span class="cart-item cart-header cart-column">ITEM</span>
+            <span class="cart-price cart-header cart-column">PRICE</span>
+            <span class="cart-quantity cart-header cart-column">QUANTITY</span>
+        </div>
+        <div class="cart-items">
+        </div>
+        <div class="cart-total">
+            <strong class="cart-total-title">Total</strong>
+            <span class="cart-total-price">$0</span>
+        </div>
+        <button class="btn btn-primary btn-purchase" type="button">PURCHASE</button>
+    </section>
+
+    <section style="margin-left:auto; margin-right:auto; width: 50%;">
+        <select id="list"></select>
+        <button style=" margin-bottom: 10px;padding: 10px;
+        width: 20%; 
+        font-size: 17px;
+        font-family: Raleway;
+        background: rgba(102, 102, 102, 0.8);
+        border: 1px solid #aaaaaa8a;
+        border-radius: 0.25em; " onclick="addNote()">Additional Comments</button><br>
+        <textarea id="currentnote" style="width: 100%; height: 10em; margin-bottom: 50px;">
+        </textarea>
+    </section>
+
+    <footer>
+        <div>
+          <table style="width:100%;">
+            <tr>
+              <th>Address</th>
+              <th>Contact Us</th>
+            </tr>
+            <tr>
+              <td>Edgemont Ave, Waterloo, IA</td>
+              <td>+1-268-568-8969</td>
+            </tr>
+          </table> 
+        </div>
+        <div><i class="fas fa-copyright"></i> 2021 A-HA Food. All Rights Reserved.
+       </div>
+    </footer>
+    
+</body>
+
+<script>
+    var list = document.querySelector("#list");
+    function addToList(name) {
+      var option = document.createElement("option");
+      option.textContent = name;
+      list.appendChild(option);
+    }
+  
+    // Initialize the list from localStorage
+    var notes = JSON.parse(localStorage.getItem("notes")) ||
+                {"Instructions": ""};
+    for (var name in notes)
+      if (notes.hasOwnProperty(name))
+        addToList(name);
+  
+    function saveToStorage() {
+      localStorage.setItem("notes", JSON.stringify(notes));
+    }
+  
+    var current = document.querySelector("#currentnote");
+    current.value = notes[list.value];
+  
+    list.addEventListener("change", function() {
+      current.value = notes[list.value];
+    });
+    current.addEventListener("change", function() {
+      notes[list.value] = current.value;
+      saveToStorage();
+    });
+  
+    function addNote() {
+      var name = prompt("Note title", "");
+      if (!name) return;
+      if (!notes.hasOwnProperty(name)) {
+        notes[name] = "";
+        addToList(name);
+        saveToStorage();
+      }
+      list.value = name;
+      current.value = notes[name];
+    }
+  </script>
+
+</html>
